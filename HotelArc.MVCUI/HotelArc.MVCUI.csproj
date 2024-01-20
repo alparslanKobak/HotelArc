@@ -18,4 +18,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\HotelArc.Business\HotelArc.Business.csproj" />
+    <ProjectReference Include="..\HotelArc.Kernel\HotelArc.Kernel.csproj" />
+    <ProjectReference Include="..\HotelArc.Process\HotelArc.Process.csproj" />
+  </ItemGroup>
+
 </Project>
