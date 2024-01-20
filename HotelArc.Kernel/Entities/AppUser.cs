@@ -7,7 +7,7 @@ namespace HotelArc.Kernel.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid UserId { get; set; }
+        public Guid AppUserId { get; set; }
 
         [Required(ErrorMessage = "Username is required", ErrorMessageResourceName = "Required")]
         [MinLength(8, ErrorMessage = "Minimum Username Length must be 8 charachters", ErrorMessageResourceName = "Char Length")]

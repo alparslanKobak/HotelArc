@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelArc.MVCUI", "HotelArc.MVCUI\HotelArc.MVCUI.csproj", "{5835BAAF-30DC-4D2F-B21F-1EAAB1137D3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelArc.MVCUI", "HotelArc.MVCUI\HotelArc.MVCUI.csproj", "{5835BAAF-30DC-4D2F-B21F-1EAAB1137D3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelArc.Kernel", "HotelArc.Kernel\HotelArc.Kernel.csproj", "{179F8A64-49E6-4520-98FC-BAE7FF625852}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelArc.Kernel", "HotelArc.Kernel\HotelArc.Kernel.csproj", "{179F8A64-49E6-4520-98FC-BAE7FF625852}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelArc.Business", "HotelArc.Business\HotelArc.Business.csproj", "{8843A17C-E337-46CA-B787-2FB7222F02B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelArc.Process", "HotelArc.Process\HotelArc.Process.csproj", "{78FC8506-51E1-4D23-B3F6-F74833A6DEF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{179F8A64-49E6-4520-98FC-BAE7FF625852}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{179F8A64-49E6-4520-98FC-BAE7FF625852}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{179F8A64-49E6-4520-98FC-BAE7FF625852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8843A17C-E337-46CA-B787-2FB7222F02B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8843A17C-E337-46CA-B787-2FB7222F02B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8843A17C-E337-46CA-B787-2FB7222F02B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8843A17C-E337-46CA-B787-2FB7222F02B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78FC8506-51E1-4D23-B3F6-F74833A6DEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78FC8506-51E1-4D23-B3F6-F74833A6DEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78FC8506-51E1-4D23-B3F6-F74833A6DEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78FC8506-51E1-4D23-B3F6-F74833A6DEF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
