@@ -30,7 +30,7 @@ namespace HotelArc.Kernel.Entities
         [Column(TypeName = "decimal(18,2)")]
         [Range(0, 100000, ErrorMessage = "Price must be between 0 and 100000")]
 
-        public decimal Price { get; set; }
+        public decimal Price { get; set; } // Price per night
 
 
         public bool IsAvaliable { get; set; } = true;
