@@ -1,73 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotelArc.Kernel.Entities
 {
     public class Room
     {
-        public int RoomId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid RoomId { get; set; }
 
+        [DataType(DataType.ImageUrl)]
+        [Required(ErrorMessage = "Room Image is required", ErrorMessageResourceName = "Required")]
+        [MaxLength(100, ErrorMessage = "Maximum Room Image Length must be 100 charachters", ErrorMessageResourceName = "Char Length")]
+        [Column(TypeName = "nvarchar(100)")]
+        public string RoomImage { get; set; } = "HotelArchSuitDefault.png";
+
+        [Required(ErrorMessage = "Room Number is required", ErrorMessageResourceName = "Required")]
+        [MinLength(3, ErrorMessage = "Minimum Room Number Length must be 3 charachters", ErrorMessageResourceName = "Char Length")]
+        [MaxLength(6, ErrorMessage = "Maximum Room Number Length must be 6 charachters", ErrorMessageResourceName = "Char Length")]
         public string RoomNumber { get; set; }
 
+        [Required(ErrorMessage = "Room Type is required", ErrorMessageResourceName = "Required")]
+        [MinLength(3, ErrorMessage = "Minimum Room Type Length must be 3 charachters", ErrorMessageResourceName = "Char Length")]
+        [MaxLength(15, ErrorMessage = "Maximum Room Type Length must be 15 charachters", ErrorMessageResourceName = "Char Length")]
         public string RoomType { get; set; }
+
+        [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "Price is required", ErrorMessageResourceName = "Required")]
+        [Column(TypeName = "decimal(18,2)")]
+        [Range(0, 100000, ErrorMessage = "Price must be between 0 and 100000")]
 
         public decimal Price { get; set; }
 
-        public bool IsAvaliable { get; set; }
+
+        public bool IsAvaliable { get; set; } = true;
 
         public bool IsDeleted { get; set; }
-
-
-    }
-
-    public class Reservation
-    {
-        public int ReservationId { get; set; }
-
-
-    }
-
-    public class AppUser
-    {
-        [Key]
-        public int UserId { get; set; }
-
-        [Required(ErrorMessage = "Username is required", ErrorMessageResourceName = "Required")]
-        public string UserName { get; set; }
-
-        [DataType(DataType.EmailAddress)]
-        [Required(ErrorMessage = "Email is required", ErrorMessageResourceName = "Required")]
-        public string Email { get; set; }
-
-        [DataType(DataType.Password)]
-        [Required(ErrorMessage = "Password is required", ErrorMessageResourceName = "Required")]
-        [MinLength(8, ErrorMessage = "Minimum Password Length must be 8 charachters", ErrorMessageResourceName = "Char Length")]
-        public string Password { get; set; }
-
-
-        public int RoleId { get; set; }
-
-        [ForeignKey(nameof(RoleId))]
-        public Role Role { get; set; }
-
-        public bool IsDeleted { get; set; }
-
 
         public virtual ICollection<Reservation>? Reservations { get; set; }
-    }
 
-    public class Role
-    {
-        public int RoleId { get; set; }
-
-        public string RoleName { get; set; }
-
-        public bool IsDeleted { get; set; }
     }
 
 
