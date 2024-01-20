@@ -32,18 +32,25 @@ namespace HotelArc.Process.Concrete
         {
             // IsDeleted == false olanları getir
 
-            return await _dbSet.AsNoTracking().Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false).ToListAsync();
+            return await _dbSet.AsNoTracking()
+                .Where(x => x.GetType()
+                .GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false)
+                .ToListAsync();
         }
 
         public Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression)
         {
             // IsDeleted == false olanları ve expressiona uyanları getir
-            return _dbSet.AsNoTracking().Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false).Where(expression).ToListAsync();
+            return _dbSet.AsNoTracking()
+                .Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false)
+                .Where(expression).ToListAsync();
         }
 
         public Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
-            return _dbSet.AsNoTracking().Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false).FirstOrDefaultAsync(expression);
+            return _dbSet.AsNoTracking()
+                .Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false)
+                .FirstOrDefaultAsync(expression);
         }
 
         public async Task<bool> SoftDeleteAsync(Guid id)
