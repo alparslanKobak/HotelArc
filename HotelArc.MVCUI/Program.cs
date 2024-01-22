@@ -17,6 +17,9 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 });
 
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
+builder.Services.AddTransient<IAppUserService, AppUserService>();
+builder.Services.AddTransient<IRoomService, RoomService>();
+builder.Services.AddTransient<IReservationService, ReservationService>();
 
 var app = builder.Build();
 
@@ -36,6 +39,10 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
+            name: "admin",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
@@ -49,12 +56,12 @@ using (var scope = app.Services.CreateScope())
 
     if (await db.CanConnectAsync())
     {
-        await db.EnsureDeletedAsync(); 
+        await db.EnsureDeletedAsync();
     }
 
     if (!await db.CanConnectAsync())
     {
-        await db.EnsureCreatedAsync(); 
+        await db.EnsureCreatedAsync();
 
         DbSeeder.Seed(dbContext);
     }
