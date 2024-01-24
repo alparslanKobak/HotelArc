@@ -60,18 +60,27 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
         }
 
         // GET: RoomsController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(Guid id)
         {
-            return View();
+
+
+            return View(await _roomService.FindAsync(id));
         }
 
         // POST: RoomsController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(Guid id, Room collection, IFormFile? RoomImage)
         {
             try
             {
+                if (RoomImage != null)
+                {
+                    collection.RoomImage = await FileHelper.FileLoaderAsync(RoomImage);
+                }
+
+                await _roomService.AddAsync(collection);
+                
                 return RedirectToAction(nameof(Index));
             }
             catch
