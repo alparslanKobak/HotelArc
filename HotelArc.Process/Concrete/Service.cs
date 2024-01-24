@@ -71,16 +71,17 @@ namespace HotelArc.Process.Concrete
             return false;
         }
 
-        public Task<bool> UpdateAsync(T entity, Guid id)
+        public async Task<bool> UpdateAsync(T entity, Guid id)
         {
-            var entityToUpdate = _dbSet.FindAsync(id);
+            var entityToUpdate = await _dbSet.FindAsync(id);
             if (entityToUpdate == null)
             {
-                return Task.FromResult(false);
+                return false;
             }
-            _context.Entry(entityToUpdate).CurrentValues.SetValues(entity); 
+            _context.Entry(entityToUpdate).CurrentValues.SetValues(entity);
+            _context.Entry(entityToUpdate).State = EntityState.Modified;
 
-            return Task.FromResult(_context.SaveChanges() > 0 ? true : false); 
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

@@ -79,7 +79,7 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
                     collection.RoomImage = await FileHelper.FileLoaderAsync(RoomImage);
                 }
 
-                await _roomService.AddAsync(collection);
+                await _roomService.UpdateAsync(collection,id);
                 
                 return RedirectToAction(nameof(Index));
             }
