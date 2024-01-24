@@ -1,0 +1,24 @@
+﻿@model Room
+
+@{
+    ViewData["Title"] = "Delete Room";
+}
+
+<h2>@Model.RoomNumber </h2>
+
+<p>
+    <img src="/img/@Model.RoomImage" alt="@Model.RoomNumber" class="img-fluid" />
+    <br />
+    Bu odayı silmek üzeresiniz: <strong>@Model.RoomNumber - @Model.RoomType</strong>.<br />
+    Bu işlem geri alınamaz. Odayı silmek istediğinizden emin misiniz?
+</p>
+
+<form method="post" asp-controller="Rooms" asp-action="Delete">
+    <input type="hidden" asp-for="RoomId" />
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i >Delete</button>|
+        <a asp-action="Index" asp-controller="Rooms" class="btn btn-dark">Go To List</a>
+    </div>
+
+</form>

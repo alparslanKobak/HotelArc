@@ -9,9 +9,9 @@ namespace HotelArc.Kernel.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid RoleId { get; set; }
 
-        [Required(ErrorMessage = "Role Name is required", ErrorMessageResourceName = "Required")]
-        [MinLength(3, ErrorMessage = "Minimum Role Name Length must be 3 charachters", ErrorMessageResourceName = "Char Length")]
-        [MaxLength(15, ErrorMessage = "Maximum Role Name Length must be 15 charachters", ErrorMessageResourceName = "Char Length")]
+        [Required(ErrorMessage = "Role Name is required")]
+        [MinLength(3, ErrorMessage = "Minimum Role Name Length must be 3 charachters")]
+        [MaxLength(15, ErrorMessage = "Maximum Role Name Length must be 15 charachters")]
         [Column(TypeName = "nvarchar(15)")]
         public string RoleName { get; set; }
 

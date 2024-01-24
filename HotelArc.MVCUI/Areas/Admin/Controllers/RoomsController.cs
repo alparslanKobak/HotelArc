@@ -1,4 +1,5 @@
 ﻿using HotelArc.Kernel.Entities;
+using HotelArc.MVCUI.Utils;
 using HotelArc.Process.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
             return View();
         }
 
-        // GET: RoomsController/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -38,10 +39,18 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
         // POST: RoomsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Room collection, IFormFile? RoomImage)
         {
             try
             {
+                if (RoomImage != null)
+                {
+                    collection.RoomImage = await FileHelper.FileLoaderAsync(RoomImage);
+                }
+
+                await _roomService.AddAsync(collection);
+
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -72,18 +81,22 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
         }
 
         // GET: RoomsController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            return View();
+            Room room = await _roomService.FindAsync(id);
+
+            return View(room);
+
         }
 
         // POST: RoomsController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(Guid id, Room collection)
         {
             try
             {
+                await _roomService.SoftDeleteAsync(collection.RoomId);
                 return RedirectToAction(nameof(Index));
             }
             catch
