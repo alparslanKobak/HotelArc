@@ -20,6 +20,7 @@ builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 builder.Services.AddTransient<IAppUserService, AppUserService>();
 builder.Services.AddTransient<IRoomService, RoomService>();
 builder.Services.AddTransient<IReservationService, ReservationService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
 
 var app = builder.Build();
 

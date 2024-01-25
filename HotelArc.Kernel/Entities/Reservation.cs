@@ -14,13 +14,13 @@ namespace HotelArc.Kernel.Entities
         public Guid RoomId { get; set; }
 
         [ForeignKey(nameof(RoomId))]
-        public virtual Room Room { get; set; }
+        public virtual Room? Room { get; set; }
 
         [Required(ErrorMessage = "User is required")]
         public Guid AppUserId { get; set; }
 
         [ForeignKey(nameof(AppUserId))]
-        public virtual AppUser AppUser { get; set; }
+        public virtual AppUser? AppUser { get; set; }
 
 
         public DateTime CheckIn { get; set; }

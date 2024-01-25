@@ -26,6 +26,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Rooms" asp-action="Index">Rooms</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="AppUsers" asp-action="Index">Users</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -33,6 +36,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @Html.Raw(TempData["Message"]);
             @RenderBody()
         </main>
     </div>

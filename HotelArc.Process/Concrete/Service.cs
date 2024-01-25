@@ -33,23 +33,23 @@ namespace HotelArc.Process.Concrete
         {
             // IsDeleted == false olanları getir
 
-            return await _dbSet.AsNoTracking()
+            return await _dbSet
                 .Where(x => x.GetType()
                 .GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false)
                 .ToListAsync();
         }
 
-        public Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> expression)
         {
             // IsDeleted == false olanları ve expressiona uyanları getir
-            return _dbSet.AsNoTracking()
+            return await _dbSet
                 .Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false)
                 .Where(expression).ToListAsync();
         }
 
-        public Task<T> GetAsync(Expression<Func<T, bool>> expression)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expression)
         {
-            return _dbSet.AsNoTracking()
+            return await _dbSet.AsNoTracking()
                 .Where(x => x.GetType().GetProperty("IsDeleted") == null || (bool)x.GetType().GetProperty("IsDeleted").GetValue(x) == false)
                 .FirstOrDefaultAsync(expression);
         }

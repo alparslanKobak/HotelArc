@@ -22,6 +22,7 @@ namespace HotelArc.Process.Concrete
             return await _dbSet.AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .Include(x => x.Reservations)
+                .Include(x => x.Role)
                 .FirstOrDefaultAsync(x => x.AppUserId == id);
         }
 
@@ -30,6 +31,7 @@ namespace HotelArc.Process.Concrete
             return await _dbSet.AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .Include(x => x.Reservations)
+                .Include(x => x.Role)
                 .ToListAsync();
         }
 
@@ -38,8 +40,13 @@ namespace HotelArc.Process.Concrete
             return await _dbSet.AsNoTracking()
                 .Where(x => !x.IsDeleted)
                 .Include(x => x.Reservations)
+                .Include(x => x.Role)
                 .Where(expression)
                 .ToListAsync();
         }
+
+       
+
+    
     }
 }

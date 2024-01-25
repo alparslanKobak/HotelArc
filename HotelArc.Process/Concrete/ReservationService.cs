@@ -57,7 +57,7 @@ namespace HotelArc.Process.Concrete
         public Task<bool> IsRoomReserved(Guid roomId, DateTime checkIn, DateTime checkOut)
         {
 
-            bool isReserved = _dbSet
+            bool isReserved = _dbSet.AsNoTracking()
                                .Any(r => r.RoomId == roomId
                                 && r.CheckIn < checkOut
                                 && r.CheckOut > checkIn

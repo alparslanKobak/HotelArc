@@ -14,5 +14,7 @@ namespace HotelArc.Process.Abstract
  
         Task<List<AppUser>> GetAppUsersByIncludeAsync();
         Task<List<AppUser>> GetAppUsersByIncludeAsync(Expression<Func<AppUser, bool>> expression);
+    
+      
     }
 }
