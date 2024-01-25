@@ -20,6 +20,7 @@ namespace HotelArc.Process.Abstract
 
         Task<Room> GetRoomByIncludeAsync(Guid id);
 
+       
 
     }
 }

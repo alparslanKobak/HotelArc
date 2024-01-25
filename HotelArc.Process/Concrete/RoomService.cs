@@ -49,5 +49,7 @@ namespace HotelArc.Process.Concrete
                 .Where(expression)
                 .ToListAsync();
         }
+
+      
     }
 }

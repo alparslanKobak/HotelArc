@@ -46,12 +46,25 @@ namespace HotelArc.Process.Concrete
 
         public Task<List<Reservation>> GetReservationsByIncludeAsync(Expression<Func<Reservation, bool>> expression)
         {
-           return _dbSet.AsNoTracking()
-                .Where(x => !x.IsDeleted)
-                .Include(x => x.AppUser)
-                .Include(x => x.Room)
-                .Where(expression)
-                .ToListAsync();
+            return _dbSet.AsNoTracking()
+                 .Where(x => !x.IsDeleted)
+                 .Include(x => x.AppUser)
+                 .Include(x => x.Room)
+                 .Where(expression)
+                 .ToListAsync();
+        }
+
+        public Task<bool> IsRoomReserved(Guid roomId, DateTime checkIn, DateTime checkOut)
+        {
+
+            bool isReserved = _dbSet
+                               .Any(r => r.RoomId == roomId
+                                && r.CheckIn < checkOut
+                                && r.CheckOut > checkIn
+                                && !r.IsDeleted);
+
+
+            return Task.FromResult(isReserved);
         }
     }
 }

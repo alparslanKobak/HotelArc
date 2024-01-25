@@ -17,5 +17,7 @@ namespace HotelArc.Process.Abstract
         Task<Reservation> GetReservationByIncludeAsync(Expression<Func<Reservation, bool>> expression);
 
         Task<Reservation> GetReservationByIncludeAsync(Guid id);
+
+        public Task<bool> IsRoomReserved(Guid roomId, DateTime checkIn, DateTime checkOut);
     }
 }
