@@ -1,0 +1,63 @@
+﻿@model RoomDetailViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string today = DateTime.Now.ToString("yyyy-MM-dd");
+}
+
+<h1>Room Details</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <img src="~/img/@Model.room.RoomImage" width="100%" height="200px" />
+    </div>
+    <div class="col-md-6">
+        <h3>Room Number: @Model.room.RoomNumber</h3>
+        <h3>Room Type: @Model.room.RoomType</h3>
+        <h3>Room Price: @Model.room.Price.ToString("C")</h3>
+    
+
+    </div>
+</div>
+
+
+<h1>Create</h1>
+
+<h4>Reservation</h4>
+<hr />
+
+<form asp-area="" asp-action="Details"  asp-controller="Reservations" method="post">
+
+    <input type="hidden" asp-for="roomId" value="@Model.roomId" />
+
+    <div class="form-group">
+ 
+        <label asp-for="reservation.CheckIn" class="control-label"></label>
+        <input asp-for="reservation.CheckIn" name="CheckIn" type="date" class="form-control" min="@today" id="checkInDate" onchange="updateCheckOutMinDate()" />
+        <span asp-validation-for="reservation.CheckIn" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="reservation.CheckOut" class="control-label"></label>
+        <input asp-for="reservation.CheckOut" name="CheckOut" type="date" class="form-control" id="checkOutDate" min="@today" />
+        <span asp-validation-for="reservation.CheckOut" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create A Reservation</button>
+</form>
+
+
+<script>
+    function updateCheckOutMinDate() {
+
+        var checkInDate = document.getElementById('checkInDate').value;
+
+        var checkOutDateField = document.getElementById('checkOutDate');
+        if (checkInDate) {
+            var minCheckOutDate = new Date(checkInDate);
+            minCheckOutDate.setDate(minCheckOutDate.getDate() + 1);
+            checkOutDateField.min = minCheckOutDate.toISOString().split('T')[0];
+        }
+    }
+</script>

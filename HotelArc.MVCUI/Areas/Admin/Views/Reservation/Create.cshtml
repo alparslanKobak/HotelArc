@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    string today = DateTime.Now.ToString("yyyy-MM-dd");
+}
 }
 
 <h1>Create</h1>
@@ -24,17 +26,29 @@
 
     <div class="form-group">
         <label asp-for="CheckIn" class="control-label"></label>
-        <input asp-for="CheckIn" type="date" class="form-control" />
+        <input asp-for="CheckIn" type="date" class="form-control" min="@today" id="checkInDate" onchange="updateCheckOutMinDate()" />
         <span asp-validation-for="CheckIn" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="CheckOut" class="control-label"></label>
-        <input asp-for="CheckOut" type="date" class="form-control" />
+        <input asp-for="CheckOut" type="date" class="form-control" id="checkOutDate" min="@today" />
         <span asp-validation-for="CheckOut" class="text-danger"></span>
     </div>
 
     <button type="submit" class="btn btn-primary">Create A Reservation</button>
 </form>
 
+
+<script>
+    function updateCheckOutMinDate() {
+        var checkInDate = document.getElementById('checkInDate').value;
+        var checkOutDateField = document.getElementById('checkOutDate');
+        if (checkInDate) {
+            var minCheckOutDate = new Date(checkInDate);
+            minCheckOutDate.setDate(minCheckOutDate.getDate() + 1);
+            checkOutDateField.min = minCheckOutDate.toISOString().split('T')[0];
+        }
+    }
+</script>
 

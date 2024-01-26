@@ -1,8 +1,33 @@
-﻿@{
+﻿@model IEnumerable<Room>
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="container mt-4">
+    <div class="row">
+        @foreach (Room room in Model)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="/img/@room.RoomImage" class="card-img-top" alt="Room Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Room @room.RoomNumber</h5>
+                        <p class="card-text">@room.RoomType</p>
+                        <p class="card-text">Price per night: @room.Price.ToString("C")</p>
+                        <p class="card-text">
+                            <i class="fa @(room.IsAvaliable ? "fa-check-circle text-success" : "fa-times-circle text-danger")"></i>
+                            @(room.IsAvaliable ? "Available" : "Unavailable")
+                        </p>
+                       
+                        <a class="btn btn-success" asp-action="Details" asp-controller="Reservations" asp-route-id="@room.RoomId">
+
+                            <i class="fa-solid fa-passport"></i>
+                            Book Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
