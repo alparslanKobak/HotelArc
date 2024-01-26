@@ -24,7 +24,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         config.Cookie.Name = "User.Cookie";
         config.LoginPath = "/Auth/Login";
-        config.AccessDeniedPath = "/Home/AccessDenied";
+        config.AccessDeniedPath = "/Auth/AccessDenied";
       
         config.Cookie.MaxAge = TimeSpan.FromDays(1);
 

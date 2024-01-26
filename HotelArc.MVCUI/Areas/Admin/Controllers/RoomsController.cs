@@ -1,12 +1,14 @@
 ﻿using HotelArc.Kernel.Entities;
 using HotelArc.MVCUI.Utils;
 using HotelArc.Process.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelArc.MVCUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class RoomsController : Controller
     {
         private readonly IRoomService _roomService;

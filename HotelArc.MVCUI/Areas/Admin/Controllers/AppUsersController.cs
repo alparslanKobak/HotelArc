@@ -1,5 +1,6 @@
 ﻿using HotelArc.Kernel.Entities;
 using HotelArc.Process.Abstract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,7 @@ using System.Net.Http;
 namespace HotelArc.MVCUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class AppUsersController : Controller
     {
         private readonly IAppUserService _appUserService;

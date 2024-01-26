@@ -51,6 +51,12 @@ namespace HotelArc.MVCUI.Controllers
 
                     await HttpContext.SignInAsync(claimsPrincipal);
 
+
+                    if (user.Role.RoleName == "Admin")
+                    {
+                        return RedirectToAction("Index","Home", new {area="Admin"} );
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -69,9 +75,14 @@ namespace HotelArc.MVCUI.Controllers
 
         public async Task<ActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme
-                );
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
+        }
+
+
+        public async Task<ActionResult> AccessDenied()
+        {
+            return View();
         }
 
 
