@@ -23,7 +23,7 @@
 
     <div class="form-group mt-1">
         <label asp-for="PhoneNumber" class="control-label"></label>
-        <input type="number" id="PhoneNumber" name="PhoneNumber" class="form-control" />
+        <input type="number" id="PhoneNumber" min="0" step="1" name="PhoneNumber" class="form-control" />
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
 
