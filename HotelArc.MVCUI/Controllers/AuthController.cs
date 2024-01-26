@@ -54,7 +54,7 @@ namespace HotelArc.MVCUI.Controllers
 
                     if (user.Role.RoleName == "Admin")
                     {
-                        return RedirectToAction("Index","Home", new {area="Admin"} );
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
                     }
 
                     return RedirectToAction("Index", "Home");
@@ -79,6 +79,46 @@ namespace HotelArc.MVCUI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            try
+            {
+                AppUser user = await _appUserService.GetAppUserByIncludeAsync(x => x.Email == registerViewModel.Email);
+
+
+                if (user != null)
+                {
+                    TempData["Message"] = "<div class='alert alert-danger'>This email is already registered.</div>";
+                    return RedirectToAction(nameof(Register));
+                }
+
+                Role role = await _roleService.GetRoleByIncludeAsync(x => x.RoleName == "User");
+                AppUser newUser = new AppUser()
+                {
+
+                    Email = registerViewModel.Email,
+                    Password = registerViewModel.Password,
+                    UserName = registerViewModel.UserName,
+                    RoleId = role.RoleId,
+                    PhoneNumber = registerViewModel.PhoneNumber,
+                    
+                };
+
+                await _appUserService.AddAsync(newUser);
+                TempData["Message"] = "<div class='alert alert-success'>Welcome to Our Hotel :)</div>";
+                return RedirectToAction(nameof(Login));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         public async Task<ActionResult> AccessDenied()
         {
