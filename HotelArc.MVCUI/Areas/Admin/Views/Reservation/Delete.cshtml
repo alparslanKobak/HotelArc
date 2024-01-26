@@ -1,0 +1,29 @@
+﻿@model Reservation
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Delete</h1>
+
+<h2>Are you sure you want to delete this?</h2>
+
+<div class="bg-dark">
+    <h5 class="text-white">Room Id: @Model.Room.RoomNumber</h5>
+    <hr />
+    <h5 class="text-white">User Id: @Model.AppUser.UserName</h5>
+    <hr />
+    <h5 class="text-white">Check In: @Model.CheckIn</h5>
+    <hr />
+    <h5 class="text-white">Check Out: @Model.CheckOut</h5>
+</div>
+
+<form method="post" asp-controller="Reservation" asp-action="Delete">
+
+<input type="hidden" asp-for="ReservationId" />
+
+    <button type="submit" class="btn btn-danger">Delete</button> |
+    <a asp-action="Index" asp-controller="Reservation">Back to List</a>
+</form>
+
+

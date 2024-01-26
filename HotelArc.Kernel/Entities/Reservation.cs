@@ -22,10 +22,13 @@ namespace HotelArc.Kernel.Entities
         [ForeignKey(nameof(AppUserId))]
         public virtual AppUser? AppUser { get; set; }
 
-
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CheckIn { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime CheckOut { get; set; }
+
+       
 
         public bool IsDeleted { get; set; }
     }

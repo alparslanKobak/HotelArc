@@ -2,6 +2,8 @@
 using HotelArc.Process.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace HotelArc.MVCUI.Areas.Admin.Controllers
 {
@@ -9,10 +11,14 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
     public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;
+        private readonly IRoomService _roomService;
+        private readonly IAppUserService _appUserService;
 
-        public ReservationController(IReservationService reservationService)
+        public ReservationController(IReservationService reservationService, IRoomService roomService, IAppUserService appUserService)
         {
             _reservationService = reservationService;
+            _roomService = roomService;
+            _appUserService = appUserService;
         }
 
         // GET: ReservationController
@@ -29,18 +35,30 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
         }
 
         // GET: ReservationController/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            ViewBag.Rooms = new SelectList(await _roomService.GetRoomsByIncludeAsync(), "RoomId", "RoomNumber");
+            ViewBag.Users = new SelectList(await _appUserService.GetAppUsersByIncludeAsync(), "AppUserId", "UserName");
             return View();
         }
 
         // POST: ReservationController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Reservation collection)
         {
             try
             {
+                bool IsRoomReserved = await _reservationService.IsRoomReserved(collection.RoomId, collection.CheckIn, collection.CheckOut);
+                if (IsRoomReserved)
+                {
+                    TempData["Message"] = "<div class='alert alert-danger'>This room is already reserved for this date range.</div>";
+                    return RedirectToAction(nameof(Create));
+                }
+
+                await _reservationService.AddAsync(collection);
+
+
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -50,39 +68,61 @@ namespace HotelArc.MVCUI.Areas.Admin.Controllers
         }
 
         // GET: ReservationController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(Guid id)
         {
-            return View();
+            ViewBag.Rooms = new SelectList(await _roomService.GetRoomsByIncludeAsync(), "RoomId", "RoomNumber");
+
+            ViewBag.Users = new SelectList(await _appUserService.GetAppUsersByIncludeAsync(), "AppUserId", "UserName");
+
+            Reservation reservation = await _reservationService.GetReservationByIncludeAsync(id);
+
+            return View(reservation);
+          
         }
 
         // POST: ReservationController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(Guid id, Reservation collection)
         {
             try
             {
+                bool IsRoomReserved = await _reservationService.IsRoomReserved(collection.RoomId, collection.CheckIn, collection.CheckOut, id);
+
+                if (IsRoomReserved)
+                {
+                    TempData["Message"] = "<div class='alert alert-danger'>This room is already reserved for this date range.</div>";
+                    return RedirectToAction(nameof(Create));
+                    
+                }
+                await _reservationService.UpdateAsync(collection,id);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                ViewBag.Rooms = new SelectList(await _roomService.GetRoomsByIncludeAsync(), "RoomId", "RoomNumber");
+                ViewBag.Users = new SelectList(await _appUserService.GetAppUsersByIncludeAsync(), "AppUserId", "UserName");
             }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ReservationController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(Guid id)
         {
-            return View();
+          Reservation model =   await _reservationService.GetReservationByIncludeAsync(id);
+
+            return View(model);
         }
 
         // POST: ReservationController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(Guid id, Reservation collection)
         {
             try
             {
+                await _reservationService.SoftDeleteAsync(id);
+
                 return RedirectToAction(nameof(Index));
             }
             catch

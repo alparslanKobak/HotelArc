@@ -54,17 +54,16 @@ namespace HotelArc.Process.Concrete
                  .ToListAsync();
         }
 
-        public Task<bool> IsRoomReserved(Guid roomId, DateTime checkIn, DateTime checkOut)
+        public async Task<bool> IsRoomReserved(Guid roomId, DateTime checkIn, DateTime checkOut, Guid? currentReservationId = null)
         {
+            bool isReserved = await _dbSet.AsNoTracking()
+                                         .AnyAsync(r => r.RoomId == roomId
+                                                        && r.CheckIn < checkOut
+                                                        && r.CheckOut > checkIn
+                                                        && !r.IsDeleted
+                                                        && (!currentReservationId.HasValue || r.ReservationId != currentReservationId.Value)); // Eğer güncelleme işlemi yapılıyorsa, güncellenen rezervasyonun kendisini hariç tutulmalıdır.
 
-            bool isReserved = _dbSet.AsNoTracking()
-                               .Any(r => r.RoomId == roomId
-                                && r.CheckIn < checkOut
-                                && r.CheckOut > checkIn
-                                && !r.IsDeleted);
-
-
-            return Task.FromResult(isReserved);
+            return isReserved;
         }
     }
 }
