@@ -1,6 +1,7 @@
 using HotelArc.Business;
 using HotelArc.Process.Abstract;
 using HotelArc.Process.Concrete;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -15,6 +16,20 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
     options.UseSqlServer(connectionString);
 });
+
+builder.Services.AddSession();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(config =>
+    {
+        config.Cookie.Name = "User.Cookie";
+        config.LoginPath = "/Auth/Login";
+        config.AccessDeniedPath = "/Home/AccessDenied";
+      
+        config.Cookie.MaxAge = TimeSpan.FromDays(1);
+
+    });
+
 
 builder.Services.AddTransient(typeof(IService<>), typeof(Service<>));
 builder.Services.AddTransient<IAppUserService, AppUserService>();
@@ -36,8 +51,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();
+app.UseAuthentication();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
             name: "admin",

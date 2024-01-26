@@ -45,8 +45,18 @@ namespace HotelArc.Process.Concrete
                 .ToListAsync();
         }
 
-       
 
-    
+        public async Task<AppUser> GetAppUserByIncludeAsync(Expression<Func<AppUser, bool>> expression)
+        {
+            return await _dbSet.AsNoTracking()
+                .Where(x => !x.IsDeleted)
+                .Include(x => x.Reservations)
+                .Include(x => x.Role)
+                .FirstOrDefaultAsync(expression);
+        }
+
+
+
+
     }
 }
